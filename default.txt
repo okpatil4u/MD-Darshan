@@ -1,2 +1,0 @@
-/home/omkar/Data
-/usr/local/cuda/lib64
