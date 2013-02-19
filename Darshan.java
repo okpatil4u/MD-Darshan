@@ -526,9 +526,23 @@ public class Darshan extends JFrame {
 						}
 					}				
 				});
+				JLabel jcuda = new JLabel("Select Cuda Directory");
+				final JButton selectCuda = new JButton("...");
+				selectCuda.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						JFileChooser folder = new JFileChooser();
+						folder.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+						int f = folder.showSaveDialog(ab);
+						if(f==JFileChooser.APPROVE_OPTION){
+							String save = folder.getSelectedFile().getPath();
+							selectCuda.setText(save);
+						}
+					}				
+				});
 				simPanel.add(folder, new GBC(0,0,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
 				simPanel.add(selectFolder, new GBC(1,0,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
-				
+				simPanel.add(jcuda, new GBC(0,1,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
+				simPanel.add(selectCuda, new GBC(1,1,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
 				JButton ok = new JButton("Ok");
 				JButton cancel = new JButton("Cancel");
 				
@@ -539,6 +553,8 @@ public class Darshan extends JFrame {
 							try {
 								FileWriter writer = new FileWriter("default.txt");
 								writer.write(selectFolder.getText());
+								if(!selectCuda.getText().contains("..."))
+								writer.write("\n"+selectCuda.getText());
 								writer.close();
 								defaultSettings.dispose();
 			//					System.out.println("System path is set, please restart");
@@ -552,12 +568,12 @@ public class Darshan extends JFrame {
 				cancel.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent arg0) {
 						defaultSettings.dispose();
-						//System.exit(0);
+						System.exit(0);
 					}				
 				});
 				buttonPanel.add(ok);
 				buttonPanel.add(cancel);
-				simPanel.add(buttonPanel, new GBC(0,1, 2, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(5));
+				simPanel.add(buttonPanel, new GBC(0,2, 2, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(5));
 				defaultSettings.add(simPanel, BorderLayout.CENTER);
 				defaultSettings.setVisible(true);
 			}			
@@ -1475,6 +1491,7 @@ public class Darshan extends JFrame {
 						try {
 							FileWriter writer = new FileWriter("default.txt");
 							writer.write(selectFolder.getText());
+							if(!selectCuda.getText().contains("..."))
 							writer.write("\n"+selectCuda.getText());
 							writer.close();
 							defaultSettings.dispose();
