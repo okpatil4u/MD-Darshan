@@ -462,7 +462,7 @@ public class PostProcessor {
 	private static Sphere createSphere(int color) {
 		Appearance app = new Appearance();
 		Color n = new Color();
-		n.newColor(color%15);
+		n.newColor(color%15-1);
 		Color3f objColor = new Color3f(n.r, n.g, n.b);
 		Color3f black = new Color3f(0.0f, 0.0f, 0.0f);
 		app.setMaterial(new Material(objColor, black, objColor, black, 80.0f));

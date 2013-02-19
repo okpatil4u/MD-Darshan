@@ -1,4 +1,4 @@
-OpenMM_INSTALL_DIR=OpenMM3.0-Linux64
+OpenMM_INSTALL_DIR=openmm
 JFLAGS = -g
 JC = javac
 

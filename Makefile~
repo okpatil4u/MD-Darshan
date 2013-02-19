@@ -1,4 +1,4 @@
-OpenMM_INSTALL_DIR=/home/omkar/Library/OpenMM3.0-Linux64
+OpenMM_INSTALL_DIR=OpenMM3.0-Linux64
 JFLAGS = -g
 JC = javac
 
