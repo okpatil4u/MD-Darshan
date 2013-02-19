@@ -1,0 +1,18 @@
+Metadata-Version: 1.0
+Name: OpenMM
+Version: 4.1.0
+Summary: Python wrapper for OpenMM (a C++ MD package)
+Home-page: https://simtk.org/home/openmm
+Author: Randall J. Radmer
+Author-email: radmer@stanford.edu
+License: Python Software Foundation License (BSD-like)
+Download-URL: https://simtk.org/home/openmm
+Description: OpenMM is a library which provides tools for modern molecular
+            modeling simulation. As a library it can be hooked into any code,
+            allowing that code to do molecular modeling with minimal extra
+            coding (https://simtk.org/home/openmm).  This Python package
+            gives access to the OpenMM API.
+            
+Platform: Linux
+Platform: Mac OS X
+Platform: Windows
