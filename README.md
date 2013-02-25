@@ -69,4 +69,42 @@ You can load a previously saved molecule with Molecule => Load
 ####Carbon Nanotube
 To draw a carbon nanotube, select Molecule => Advanced => Carbon Nanotube and give it dimensions.
 
+###System Builder
+System builder sets simulation parameters, participating molecules. It also simulates given ensemble.
+
+####Setting up ensemble
+Click on System => New. A window with "Set properties" title pop up. Set temperature in Kelvin. Select simulation type from constant temperature and constant pressure. Then select default system behavior.
+Click next. Depending on your initial choices, set volume or pressure and initial volume. You can also set force cutoff radius in angstrom.
+Click Create to create the system.
+
+####Basic Navigation
+Here you can see a blank simulation system box at center canvas with toolkit in the right. You can rotate the box by dragging the mouse. And you can zoom in or out using mouse scroll.
+
+####Toolkit Panel
+Domain List 
+This is the list of created domains (regions)
+
+Toolbox
+
+1. Add Molecule - To add a single molecule click on "Add Molecule". Set its coordinates and click on "Create". You can also exclude this molecule volume by checking "Exclude form other regions"
+2. Add Domain - To create a volume filled with number of molecules, click on "Add Domain". Set its center coordinates and volume of replication. You can also exclude this volume from further replication by checking "Exclude from other regions"
+3. V-Domain - To make a domain immovable (no positional change throughout simulation), select the domain from list and click on "V-Domain".
+4. Set Size - To change the domain size, click on set size and enter new size parameters. (You may need to empty the domain list first).
+5. Import domain - To import previously simulated domains click on "Import Domain" and select the file. This file has to be exported from post processor.
+6. Remove - To remove a domain, select the domain from list and click on "Remove"
+7. Simulate - To simulate the given system, click on "Simulate"
+
+Simulate
+A window will pop up with list of parameters.
+1. Simulation time after equilibrium - Time of simulation in pico seconds.
+2. Step Size - Step size in pico seconds. Default 1 fs (0.001 ps). Make sure the step size is small for stable simulation.
+3. Reporting Interval - Simulation graphics window refresh rate. Default 10 frames per refresh.
+4. Save Frequency - File save frequency. You can view these results in Postprocessor.
+5. Case - Set case file name. This file will be created in default workspace folder.
+
+Click on "Ok" to start the simulation. A black window will pop up in a few seconds. This window will refresh and remain until simulations completes. You can close this window to stop the simulation. You can find result case and data files in workspace.
+
+####Save and load
+You can save and load the system file. Please note that save file is different than case file.
+
 
