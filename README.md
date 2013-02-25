@@ -30,6 +30,7 @@ MD Darshan works through 3 parts.
 2. System Builder - Design simulation system, setup and run simulations.
 3. Postprocessor - View and analyze your simulation results.
 
+<hr>
 ### Molecule Builder
 
 You can build your molecular structures here. To build a new molecule, click Molecule => New.
@@ -47,10 +48,10 @@ In order to remove a bonded atom, you will have to remove the bond first.
 You can translate view position with right click and drag. For rotate view, press right shift and then left click and drag mouse.
 
 ####Toolkit Panel
-#####Atom List#####
+  <b>Atom List</b><br />
 You can select draw atom type from this list. 
 
-#####Toolbox#####
+  <b>Toolbox</b>
 
 1. Load Image - If you want to refer to an image while drawing a molecule. Click on "Load Image", select the image and place the window where you can see it better.
 2. Add Hydrogen - To automatically add hydrogen atoms to satisfy valency of drawn structure. Click on "Add Hydrogen"
@@ -69,6 +70,7 @@ You can load a previously saved molecule with Molecule => Load
 ####Carbon Nanotube
 To draw a carbon nanotube, select Molecule => Advanced => Carbon Nanotube and give it dimensions.
 
+<hr>
 ###System Builder
 System builder sets simulation parameters, participating molecules. It also simulates given ensemble.
 
@@ -82,10 +84,10 @@ Here you can see a blank simulation system box at center canvas with toolkit in 
 You can translate the view with right click drag.
 
 ####Toolkit Panel
-Domain List 
+  <b>Domain List </b><br />
 This is the list of created domains (regions)
 
-Toolbox
+  <b>Toolbox</b>
 
 1. Add Molecule - To add a single molecule click on "Add Molecule". Set its coordinates and click on "Create". You can also exclude this molecule volume by checking "Exclude form other regions"
 2. Add Domain - To create a volume filled with number of molecules, click on "Add Domain". Set its center coordinates and volume of replication. You can also exclude this volume from further replication by checking "Exclude from other regions"
@@ -95,7 +97,7 @@ Toolbox
 6. Remove - To remove a domain, select the domain from list and click on "Remove"
 7. Simulate - To simulate the given system, click on "Simulate"
 
-Simulate
+<b>Simulate</b><br />
 A window will pop up with list of parameters.
 1. Simulation time after equilibrium - Time of simulation in pico seconds.
 2. Step Size - Step size in pico seconds. Default 1 fs (0.001 ps). Make sure the step size is small for stable simulation.
@@ -107,7 +109,7 @@ Click on "Ok" to start the simulation. A black window will pop up in a few secon
 
 ####Save and load
 You can save and load the system file. Please note that save file is different than case file.
-
+<hr>
 ###Post Processor
 Post processor is used to view and analyze simulation results.
 
@@ -120,10 +122,10 @@ You can translate the view with right click drag.
 To hide a selected domain from view, right click on canvas and select domain.
 
 ####Toolkit Panel
-Simulation Result List
+  <b>Simulation Result List</b><br />
 This is list of result saved at set intervals. You can select a save to view and examine it.
 
-Toolbox
+  <b>Toolbox</b>
 
 1. Distance mode off - To get distance between two atoms, click on "Distance mode off" to set it on. Then you can select successive atoms to check distance between them.
 2. Export All Domains - You can export whole simulation box to simulate it again using System Builder's "Import Domain" functionality.
@@ -135,5 +137,10 @@ Toolbox
 8. Energy - You can calculate energy by clicking on this button. You can also find out nonbonded, bond-stretch, bond-angle bend, dihedral torsional and inversional energy of a particular domain or set of domains.
 
 
+##Contributing
 
+We encourage you to contribute to MD Darshan! You can send a mail to okpatil4u@gmail.com or sanatm@chemical.iitd.ernet.in if you have any queries.
 
+##License
+
+MD Darshan is released under the <a href="http://www.gnu.org/licenses/gpl.html">GPL License</a>.
