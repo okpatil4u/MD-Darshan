@@ -79,6 +79,7 @@ Click Create to create the system.
 
 ####Basic Navigation
 Here you can see a blank simulation system box at center canvas with toolkit in the right. You can rotate the box by dragging the mouse. And you can zoom in or out using mouse scroll.
+You can translate the view with right click drag.
 
 ####Toolkit Panel
 Domain List 
@@ -106,5 +107,33 @@ Click on "Ok" to start the simulation. A black window will pop up in a few secon
 
 ####Save and load
 You can save and load the system file. Please note that save file is different than case file.
+
+###Post Processor
+Post processor is used to view and analyze simulation results.
+
+####Loading simulation results
+Click on Post-Processor => Load Case. Select case file and data file. Make sure that both belong to same simulation set. Click "Ok" to load the files.
+
+####Basic Navigation
+Here you can see simulation system box at center canvas with toolkit in the right. You can rotate the box by dragging the mouse. And you can zoom in or out using mouse scroll.
+You can translate the view with right click drag.
+To hide a selected domain from view, right click on canvas and select domain.
+
+####Toolkit Panel
+Simulation Result List
+This is list of result saved at set intervals. You can select a save to view and examine it.
+
+Toolbox
+
+1. Distance mode off - To get distance between two atoms, click on "Distance mode off" to set it on. Then you can select successive atoms to check distance between them.
+2. Export All Domains - You can export whole simulation box to simulate it again using System Builder's "Import Domain" functionality.
+3. Export Domain - You can export a selected domain using this button.
+4. RDF - To find radial distribution function of between two atoms, click on "RDF" button, select center and other atom. Select rdf cutoff distance and rdf smoothing percentage and click on "Show". A file with all rdf data in it will be created at workspace with '"your case name"rdf.dat' name.
+5. Angles - To find angular position distribution between two molecules, click on "Angles" button, a window will pop up. Click on center atom button, select two different atoms to create a vector. Click on other atom button and follow the same procedure. Set inner diameter and outer diameter to find out angular distribution in a spherical shell. Click ok and a plot of angular distribution will be shown. A file with '"your case name".angle.dat' name will be automatically created.
+6. Save Image - You can save current snapshot of view by clicking on "Save Image". The result will be stored in jpeg format.
+7. Export System - You can export current time save to be simulated again using export system. Select System Builder => Load to load the system.
+8. Energy - You can calculate energy by clicking on this button. You can also find out nonbonded, bond-stretch, bond-angle bend, dihedral torsional and inversional energy of a particular domain or set of domains.
+
+
 
 
