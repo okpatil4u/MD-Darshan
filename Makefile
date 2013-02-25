@@ -50,4 +50,4 @@ default: classes
 classes: $(CLASSES:.java=.class)
 
 clean:
-	$(RM) *.class simulate energy minimize
+	$(RM) *.class simulate energy minimize Arguments.txt checkIt.txt coordinates.txt default.txt miniMole.mole miniMolRes.mole optimizeSystem.mole simulationParameters.mole energy.dat

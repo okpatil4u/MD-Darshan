@@ -2238,16 +2238,26 @@ public class PostProcessor {
 		noC = 0; type =0; behavior = 0; total =0; moleNumber = null; atomToCheck = 0;
 		sizeX=0; sizeY=0; sizeZ=0; cutOff=0; sigma=0; epsilon=0; pressure=0; temp =0; maxSigma = 0;
 		molecules = null;
-		allAtoms.removeAllElements();
-		allAtoms = null;
-		lineNo.removeAllElements();
-		lineNo = null;
-		saves.removeAllElements();
-		saves = null;
-		allAngles.removeAllElements();
-		allAngles = null;
-		allTorsions.removeAllElements();
-		allTorsions = null;
+		if(allAtoms != null){
+			allAtoms.removeAllElements();
+			allAtoms = null;
+		}	
+		if(lineNo != null){
+			lineNo.removeAllElements();
+			lineNo = null;
+		}
+		if(saves != null){
+			saves.removeAllElements();
+			saves = null;
+		}
+		if(allAngles != null){
+			allAngles.removeAllElements();
+			allAngles = null;
+		}
+		if(allTorsions != null){
+			allTorsions.removeAllElements();
+			allTorsions = null;
+		}
 		box.detach();
 		jpostTool.setVisible(false);
 		main.jdesk.remove(jpostTool);

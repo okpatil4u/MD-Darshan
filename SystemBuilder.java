@@ -134,6 +134,7 @@ public class SystemBuilder {
 	static BranchGroup boxGroup;
 	static float oldX = 0, oldY = 0, oldZ = 0;
 	int sum =0;
+	static boolean save = false;
 	//static Vector<RegionMolecules> regMol;
 	
 	@SuppressWarnings("static-access")
@@ -646,7 +647,7 @@ public class SystemBuilder {
 				regionBranch.add(b);*/
 				final JFrame jregion = new JFrame();
 				jregion.setTitle("Create Region");
-				jregion.setBounds(400, 150, 340, 200);
+				jregion.setBounds(400, 150, 340, 300);
 				jregion.setVisible(true);
 				jregion.setLayout(new BorderLayout());
 				jregion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -3643,6 +3644,7 @@ public class SystemBuilder {
 		}
 	}
 	private static Sphere createSphere(int color) {
+		save = false;
 		Appearance app = new Appearance();
 		Color n = new Color();
 		n.newColor(color-1);
@@ -3677,7 +3679,16 @@ public class SystemBuilder {
 	}
 	@SuppressWarnings({ "deprecation" })
 	public  void askSysSave(final String state){
-		if(state == "Exit"){
+		if(kaamChalu){
+			Darshan.jtext.setText("Cannot exit while simulating !");
+		}
+		else if(save && state == "Exit" && !kaamChalu){
+			destroy();
+		}
+		else if(save && state == "Clear" && !kaamChalu){
+			destroy();
+		}
+		else if(state == "Exit"){
 			final JDialog diaSaveSys = new JDialog();
 			diaSaveSys.setBounds(500,250,300,135);
 			JPanel p1,p2;
@@ -3897,7 +3908,7 @@ public class SystemBuilder {
 									}
 								}								
 								out.write("\nEnd");
-
+								save = true;
 							}else{
 								main.jtext.setText("Error in expression");
 							}

@@ -37,6 +37,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
@@ -74,6 +75,7 @@ public class Darshan extends JFrame {
 	static Process process1 = null;
 	static boolean goPost = false;
 	static int height, width;
+	static boolean sys = false;
 	
 	public JMenuBar createMenu(){		
 		JMenuBar menubar = new JMenuBar();
@@ -86,7 +88,7 @@ public class Darshan extends JFrame {
 		JMenu jmadvanced = new JMenu("Advanced");
 		JMenuItem jmcnt = new JMenuItem("Carbon Nanotube");
 		//JMenuItem jmwii = new JMenuItem("Activate Wiimote");
-		JMenuItem jmwiidisable = new JMenuItem("Deactivate Wiimote");
+		/*JMenuItem jmwiidisable = new JMenuItem("Deactivate Wiimote");
 		jmwiidisable.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(process1!= null){
@@ -94,7 +96,9 @@ public class Darshan extends JFrame {
 					process1 = null;
 				}
 			}			
-		});
+		});*/
+		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+		
 		/*jmwii.addActionListener(new ActionListener(){
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
@@ -329,6 +333,7 @@ public class Darshan extends JFrame {
 			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent arg0) {
 				if(mBuilder!= null){
+					
 					mBuilder.askMoleSave("Clear");
 					if(mBuilder == null){
 						newSysWnd();
@@ -345,7 +350,7 @@ public class Darshan extends JFrame {
 					if(post!= null)
 						post = null;
 				}
-				if(!working)
+				if(!working&&!sys)
 					newSysWnd();
 								
 			}
@@ -647,7 +652,7 @@ public class Darshan extends JFrame {
 		jmhelp.add(jmcontents);
 		jmhelp.add(jmabout);
 		menubar.add(jmhelp);
-		
+	
 		return menubar;
 	}
 	public void sysCons(){
@@ -659,7 +664,7 @@ public class Darshan extends JFrame {
 		jtext = new JLabel();
 		jcons.add(jtext, new GBC(0,0,1,1).setFill(GBC.VERTICAL).setWeight(100, 0).setAnchor(GBC.NORTH));
 		//jcons.add(bar, new GBC(1,0,1,1).setFill(GBC.VERTICAL).setWeight(100, 0).setAnchor(GBC.CENTER));
-		jtext.setText("MD Darshan vBeta initiated...");
+		jtext.setText("MD Darshan v1.0");
 		//jcons.setBounds(0, 650, 1366, 20);
 		jcons.setBounds(0, (int)((int)height/1.181538462), width, 20);
 	}
@@ -1065,9 +1070,10 @@ public class Darshan extends JFrame {
 	}
 
 	public static void newSysWnd(){
+		sys = true;
 		final JFrame newSys = new JFrame();
 		newSys.setTitle("Set Properties");
-		newSys.setBounds(400, 150, 340, 200);
+		newSys.setBounds(400, 150, 340, 250);
 		newSys.setVisible(true);
 		newSys.setLayout(new GridBagLayout());
 		newSys.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -1464,23 +1470,9 @@ public class Darshan extends JFrame {
 					}
 				}				
 			});
-			JLabel jcuda = new JLabel("Select Cuda Directory");
-			final JButton selectCuda = new JButton("...");
-			selectCuda.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent arg0) {
-					JFileChooser folder = new JFileChooser();
-					folder.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					int f = folder.showSaveDialog(ab);
-					if(f==JFileChooser.APPROVE_OPTION){
-						String save = folder.getSelectedFile().getPath();
-						selectCuda.setText(save);
-					}
-				}				
-			});
+			
 			simPanel.add(folder, new GBC(0,0,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
 			simPanel.add(selectFolder, new GBC(1,0,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
-			simPanel.add(jcuda, new GBC(0,1,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
-			simPanel.add(selectCuda, new GBC(1,1,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
 			JButton ok = new JButton("Ok");
 			JButton cancel = new JButton("Cancel");
 			
@@ -1491,8 +1483,7 @@ public class Darshan extends JFrame {
 						try {
 							FileWriter writer = new FileWriter("default.txt");
 							writer.write(selectFolder.getText());
-							if(!selectCuda.getText().contains("..."))
-							writer.write("\n"+selectCuda.getText());
+							
 							writer.close();
 							defaultSettings.dispose();
 							System.out.println("System path is set, please restart");

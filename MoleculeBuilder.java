@@ -1968,6 +1968,9 @@ public class MoleculeBuilder {
 		else if(state == "Exit"&&saved){
 			destroy();
 		}
+		else if(state == "Clear"&&saved){
+			clear();
+		}
 		else if(state == "Exit"){
 			final JDialog diaSaveSys = new JDialog();
 			diaSaveSys.setBounds(500,250,300,135);
