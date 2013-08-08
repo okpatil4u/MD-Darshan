@@ -1003,11 +1003,13 @@ public class PostProcessor {
 				JLabel lother = new JLabel("Click to Select Other Atoms");
 				JLabel innerDia = new JLabel("Inner Diameter");
 				JLabel outerDia = new JLabel("Outer Diameter");
+				JLabel lavg = new JLabel("Average over last");
 				
 				final JButton bcentre = new JButton("..");
 				final JButton bother = new JButton("..");
 				final JTextField id = new JTextField(""+0);
 				final JTextField od = new JTextField(""+cutOff);
+				final JTextField tavg = new JTextField(""+1);
 				
 				bcentre.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent arg0) {
@@ -1033,13 +1035,57 @@ public class PostProcessor {
 								&& Float.parseFloat(id.getText())<(0.5*sizeX) && Float.parseFloat(id.getText())<(0.5*sizeY) && Float.parseFloat(id.getText())<(0.5*sizeZ)
 								&& Float.parseFloat(od.getText())<(0.5*sizeX) && Float.parseFloat(od.getText())<(0.5*sizeY) && Float.parseFloat(od.getText())<(0.5*sizeZ)
 								&& Float.parseFloat(id.getText())<Float.parseFloat(od.getText()))
-						if(angleMole1 != 9999 && angleMole2 != 9999 && angleAtom11 != 9999 && angleAtom12 != 9999 && angleAtom21 != 9999 && angleAtom22 != 9999){
+						if(angleMole1 != 9999 && angleMole2 != 9999 && angleAtom11 != 9999 && angleAtom12 != 9999 && angleAtom21 != 9999 && angleAtom22 != 9999 && Float.parseFloat(tavg.getText()) > 0 && 0 < (currentFrame - Float.parseFloat(tavg.getText()))){
 							if(angleMole1 != angleMole2){
-								calculateAngle(Float.parseFloat(id.getText()), Float.parseFloat(od.getText()));
+								float angles[] = new float[180];
+								int maxAng = 0;
+								for(int i=0; i< Float.parseFloat(tavg.getText()) ; i++){
+									loadPosition(currentFrame-i);
+									maxAng = calculateAngle(Float.parseFloat(id.getText()), Float.parseFloat(od.getText()), angles, maxAng);
+								}
+								loadPosition(currentFrame);
+								for(int i=0; i<180; i++){
+									angles[i] = angles[i]/Float.parseFloat(tavg.getText());
+								}
+								
+								showGraph(angles, maxAng, 180, 1);
+								BufferedWriter out;
+								try {
+									out = new BufferedWriter(new FileWriter(main.workSpace+"/"+caseFile.getName()+"angle.dat"));
+								
+									for(int i=0; i<angles.length; i++){			
+										out.write(""+(i+1)+" "+angles[i]+"\n");
+									}
+									out.close();
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
 								main.jtext.setText("Upto here");
 							}
 							else{
-								calculateSameAngle(Float.parseFloat(id.getText()), Float.parseFloat(od.getText()));
+								float angles[] = new float[180];
+								int maxAng = 0;
+								for(int i=0; i< Float.parseFloat(tavg.getText()) ; i++){
+									loadPosition(currentFrame-i);
+									maxAng = calculateSameAngle(Float.parseFloat(id.getText()), Float.parseFloat(od.getText()), angles, maxAng);
+								}
+								loadPosition(currentFrame);
+								for(int i=0; i<180; i++){
+									angles[i] = angles[i]/Float.parseFloat(tavg.getText());
+								}
+								showGraph(angles, maxAng, 180, 1);
+								BufferedWriter out;
+								try {
+									out = new BufferedWriter(new FileWriter(main.workSpace+"/"+caseFile.getName()+"angle.dat"));
+								
+									for(int i=0; i<angles.length; i++){			
+										out.write(""+(i+1)+" "+angles[i]+"\n");
+									}
+									out.close();
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+								
 								main.jtext.setText("Upto here + 1");
 							}
 							jangles.dispose();
@@ -1074,7 +1120,10 @@ public class PostProcessor {
 				anglePanel.add(outerDia,  new GBC(0,3,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
 				anglePanel.add(od,  new GBC(1,3,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
 				
-				anglePanel.add(butPanel, new GBC(0,4, 2, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(5) );
+				anglePanel.add(lavg,  new GBC(0,4,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
+				anglePanel.add(tavg,  new GBC(1,4,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
+
+				anglePanel.add(butPanel, new GBC(0,5, 2, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(5) );
 			}			
 		});
 		JButton saveImage = new JButton("Save Image");
@@ -3060,8 +3109,7 @@ public class PostProcessor {
 		
 	}
 	@SuppressWarnings("static-access")
-	public void calculateAngle(float id, float od) {
-		float angles[] = new float[180];
+	public int calculateAngle(float id, float od, float angles[], int maxAng) {
 		Vector3f vec1[] = new Vector3f[moleNumber[angleMole1]];
 		Vector3f vec2[] = new Vector3f[moleNumber[angleMole2]];
 		Vector3f vec1c[] = new Vector3f[moleNumber[angleMole1]];
@@ -3090,7 +3138,6 @@ public class PostProcessor {
 			vec2c[i] = new Vector3f((temp.x+temp1.x)/2, (temp.y+temp1.y)/2, (temp.z+temp1.z)/2);
 			//System.out.println(""+(summer1 + i*molecules[rdfMole1].atomNo + rdfAtom1));
 		}
-		int maxAng = 0;
 		float dist = 0;
 		for(int i=0; i<moleNumber[angleMole1]; i++){
 			for(int j=0; j<moleNumber[angleMole2]; j++){
@@ -3118,24 +3165,13 @@ public class PostProcessor {
 				}
 			}
 		}
-		showGraph(angles, maxAng, 180, 1);
 		
 		
-		BufferedWriter out;
-		try {
-			out = new BufferedWriter(new FileWriter(main.workSpace+"/"+caseFile.getName()+"angle.dat"));
 		
-			for(int i=0; i<angles.length; i++){			
-				out.write(""+(i+1)+" "+angles[i]+"\n");
-			}
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return maxAng;
 	}
 	@SuppressWarnings("static-access")
-	public void calculateSameAngle(float id, float od) {
-		float angles[] = new float[180];
+	public int calculateSameAngle(float id, float od, float angles[], int maxAng) {
 		Vector3f vec1[] = new Vector3f[moleNumber[angleMole1]];
 		Vector3f vec2[] = new Vector3f[moleNumber[angleMole2]];
 		Vector3f vec1c[] = new Vector3f[moleNumber[angleMole1]];
@@ -3164,7 +3200,6 @@ public class PostProcessor {
 			vec2c[i] = new Vector3f((temp.x+temp1.x)/2, (temp.y+temp1.y)/2, (temp.z+temp1.z)/2);
 			//System.out.println(""+(summer1 + i*molecules[rdfMole1].atomNo + rdfAtom1));
 		}
-		int maxAng = 0;
 		float dist = 0;
 		for(int i=0; i<moleNumber[angleMole1]; i++){
 			for(int j=i+1; j<moleNumber[angleMole2]; j++){
@@ -3192,20 +3227,8 @@ public class PostProcessor {
 				}
 			}
 		}
-		showGraph(angles, maxAng, 180, 1);
 		
-		
-		BufferedWriter out;
-		try {
-			out = new BufferedWriter(new FileWriter(main.workSpace+"/"+caseFile.getName()+"angle.dat"));
-		
-			for(int i=0; i<angles.length; i++){			
-				out.write(""+(i+1)+" "+angles[i]+"\n");
-			}
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return maxAng;
 	}
 	public class Structure {
 		public int atomNo = 0;
