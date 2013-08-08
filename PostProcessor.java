@@ -130,6 +130,7 @@ public class PostProcessor {
 	static Vector<PickCanvas> picking;
 	static boolean selectionState = false;
 	static int selectedId =65500, selectedId2 =65500;
+	int currentFrame = 0;
 	@SuppressWarnings("static-access")
 	public boolean initializePostProcessor(Darshan ab, File casef){
 		try {
@@ -754,6 +755,7 @@ public class PostProcessor {
 			public void valueChanged(ListSelectionEvent arg0) {
 				int b =	atomList.getSelectedIndex();
 				loadPosition(b);
+				currentFrame = b;
 			}			
 		});
 		atomScroll.setSize(60, 300);
@@ -849,10 +851,12 @@ public class PostProcessor {
 				JLabel lcentre = new JLabel("Click to Select Centre Atom");
 				JLabel lother = new JLabel("Click to Select Other Atoms");
 				JLabel lcut = new JLabel("RDF Cutoff");
+				JLabel lavg = new JLabel("Average over last");
 				final JButton bcentre = new JButton("..");
 				final JButton bother = new JButton("..");
 				final JTextField tcut= new JTextField(""+cutOff);
 				final JSlider slide = new JSlider();
+				final JTextField tavg= new JTextField(""+1);
 				slide.setBorder(BorderFactory.createTitledBorder("% Smoothing"));
 			    slide.setMajorTickSpacing(20);
 			    slide.setMinorTickSpacing(5);
@@ -884,11 +888,69 @@ public class PostProcessor {
 						if( Float.parseFloat(tcut.getText())>(0.5*sizeX)||Float.parseFloat(tcut.getText())>(0.5*sizeY)||Float.parseFloat(tcut.getText())>(0.5*sizeZ)){
 							main.jtext.setText("Cutoff radius should not be greater than half of system boundary");
 						}
-						else if(rdfMole1 != 9999 && rdfMole2 != 9999 && rdfAtom1 != 9999 && rdfAtom2 != 9999){
-							if(rdfMole1 != rdfMole2)
-								calculateRdf( Float.parseFloat(tcut.getText()), slide.getValue()/20 *1000);
-							else
-								calculateRdfSame( Float.parseFloat(tcut.getText()), slide.getValue()/20 *1000);
+						else if(rdfMole1 != 9999 && rdfMole2 != 9999 && rdfAtom1 != 9999 && rdfAtom2 != 9999 && Float.parseFloat(tavg.getText()) > 0 && 0 < (currentFrame - Float.parseFloat(tavg.getText()))){
+							if(rdfMole1 != rdfMole2){
+								float size = Float.parseFloat(tcut.getText());
+								final float dr = 0.0001f;
+								 int avg = slide.getValue()/20 *1000;
+								if (avg == 0)
+									avg = 2;
+								final float data[] = new float[(int) (size/dr)-avg];
+								for(int i=avg/2; i<(int)(size/dr)-avg/2; i++){
+										data[i-avg/2] = 0;
+								}
+								float maxAvg = 0;
+								for(int i=0; i< Float.parseFloat(tavg.getText()); i++){
+									loadPosition(currentFrame - i);
+									maxAvg = calculateRdf( size, avg, data, maxAvg);
+								}
+								loadPosition(currentFrame);
+								File rdfFile = new File(main.workSpace+"/"+caseFile.getName()+"rdf.dat");
+								try {
+									BufferedWriter out = new BufferedWriter(new FileWriter(rdfFile));
+									for(int i=avg/2; i<(int)(size/dr)-avg/2; i++){
+										data[i-avg/2] = data[i-avg/2] / Float.parseFloat(tavg.getText());
+										out.write(""+(i+1)*dr+" "+data[i-avg/2]+"\n");
+									}
+									out.close();											
+								} catch (IOException e) {
+									e.printStackTrace();
+									main.jtext.setText("IO Error");
+								}
+
+								showGraph(data, maxAvg, size, dr);
+							}
+							else{
+								float size = Float.parseFloat(tcut.getText());
+								final float dr = 0.0001f;
+								 int avg = slide.getValue()/20 *1000;
+								if (avg == 0)
+									avg = 2;
+								final float data[] = new float[(int) (size/dr)-avg];
+								for(int i=avg/2; i<(int)(size/dr)-avg/2; i++){
+										data[i-avg/2] = 0;
+								}
+								float maxAvg = 0;
+								for(int i=0; i< Float.parseFloat(tavg.getText()); i++){
+									loadPosition(currentFrame - i);
+									maxAvg = calculateRdfSame( size, avg, data, maxAvg);
+								}
+								loadPosition(currentFrame);
+								File rdfFile = new File(main.workSpace+"/"+caseFile.getName()+"rdf.dat");
+								try {
+									BufferedWriter out = new BufferedWriter(new FileWriter(rdfFile));
+									for(int i=avg/2; i<(int)(size/dr)-avg/2; i++){
+										data[i-avg/2] = data[i-avg/2] / Float.parseFloat(tavg.getText());
+										out.write(""+(i+1)*dr+" "+data[i-avg/2]+"\n");
+									}
+									out.close();											
+								} catch (IOException e) {
+									e.printStackTrace();
+									main.jtext.setText("IO Error");
+								}
+
+								showGraph(data, maxAvg, size, dr);
+							}
 							
 						}
 						}catch(NumberFormatException e){
@@ -915,9 +977,13 @@ public class PostProcessor {
 				
 				rdfpanel.add(lcut,  new GBC(0,2,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
 				rdfpanel.add(tcut,  new GBC(1,2,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
-				rdfpanel.add(slide,  new GBC(0,3,2,2).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
 				
-				rdfpanel.add(butPanel, new GBC(0,5, 2, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(5) );
+				rdfpanel.add(lavg,  new GBC(0,3,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
+				rdfpanel.add(tavg,  new GBC(1,3,1,1).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
+
+				rdfpanel.add(slide,  new GBC(0,4,2,2).setFill(GBC.BOTH).setWeight(100, 0).setInsets(5));
+				
+				rdfpanel.add(butPanel, new GBC(0,6, 2, 2).setFill(GBC.HORIZONTAL).setWeight(100, 0).setInsets(5) );
 			}		
 		});
 		JButton calcAng = new JButton("Angles");
@@ -2586,7 +2652,7 @@ public class PostProcessor {
 		//System.out.println(""+molecules.length);
 	}
 	@SuppressWarnings("static-access")
-	public void calculateRdf(float cutOff, int avg){
+	public float calculateRdf(float cutOff, int avg, float data [], float maxAvg){
 		if(avg == 0)
 			avg = 2;
 		final float vec1[][] = new float[moleNumber[rdfMole1]][3];
@@ -2690,12 +2756,8 @@ public class PostProcessor {
 			}
 		}*/
 		double V = 4 * Math.PI * Math.pow(size, 3)/ 3;
-		File rdfFile = new File(main.workSpace+"/"+caseFile.getName()+"rdf.dat");
-		final float data[] = new float[(int) (size/dr)-avg];
-		float maxAvg = 0;
 		float avgOut=0;
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(rdfFile));
+
 			for(int i=avg/2; i<(int)(size/dr)-avg/2; i++){
 				float rdf = 0;
 				for(int j=i-avg/2+1; j<i+avg/2; j++){
@@ -2703,22 +2765,15 @@ public class PostProcessor {
 				}
 					avgOut = rdf/ avg;
 				//	if(rdf!=0)
-					out.write(""+(i+1)*dr+" "+(rdf)/avg+"\n");
 					if(avgOut>maxAvg){
 						maxAvg = avgOut;
 					}
-					data[i-avg/2] = avgOut;
+					data[i-avg/2] += avgOut;
 			}
-			out.close();
-			showGraph(data, maxAvg, size, dr);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-			main.jtext.setText("IO Error");
-		}
+		return maxAvg;
 	}
 	@SuppressWarnings({ "static-access" })
-	public void calculateRdfSame(float cutOff, int avg){
+	public float calculateRdfSame(float cutOff, int avg, float data [], float maxAvg){
 		if(avg == 0)
 			avg = 2;
 		final float vec1[][] = new float[moleNumber[rdfMole1]][3];
@@ -2822,32 +2877,21 @@ public class PostProcessor {
 			}
 		}*/
 		double V = 4 * Math.PI * Math.pow(size, 3)/ 3;
-		File rdfFile = new File(main.workSpace+"/"+caseFile.getName()+"rdf.dat");
-		final float data[] = new float[(int) (size/dr)-avg];
-		float maxAvg = 0;
+		
 		float avgOut=0;
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(rdfFile));
 			for(int i=avg/2; i<(int)(size/dr)-avg/2; i++){
 				float rdf = 0;
 				for(int j=i-avg/2+1; j<i+avg/2; j++){
 					rdf += (float)(bin[j-1] *20* V/ (2 * Math.PI * length1 * length1 * ((j-1/2)*dr)*((j-1/2)*dr) * dr ));
 				}
-					avgOut = rdf/ avg;
+				avgOut = rdf/ avg;
 				//	if(rdf!=0)
-					out.write(""+(i+1)*dr+" "+(rdf)/avg+"\n");
-					if(avgOut>maxAvg){
-						maxAvg = avgOut;
-					}
-					data[i-avg/2] = avgOut;
-			}
-			out.close();
-			showGraph(data, maxAvg, size, dr);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-			main.jtext.setText("IO Error");
-		}
+				if(avgOut>maxAvg){
+					maxAvg = avgOut;
+				}
+				data[i-avg/2] += avgOut;
+			}			
+		return maxAvg;
 	}
 	
 
