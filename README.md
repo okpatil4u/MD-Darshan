@@ -141,6 +141,9 @@ This is list of result saved at set intervals. You can select a save to view and
 
 We encourage you to contribute to MD Darshan! You can send a mail to okpatil4u@gmail.com or sanatm@chemical.iitd.ernet.in if you have any queries.
 
+##Showcase
+Yayy !!! We are on IIT Delhi <a href="http://iitd.ac.in/">front page</a>. More on this <a href="http://iitd.ac.in/content/md-darshan-ultrafast-gpu-based-molecular-dynamics-tool-developed">here</a>.
+
 ##License
 
 MD Darshan is released under the <a href="http://www.gnu.org/licenses/gpl.html">GPL License</a>.
