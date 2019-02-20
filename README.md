@@ -1,4 +1,4 @@
-#MD Darshan
+# MD Darshan
 
 MD Darshan is a powerful molecular dynamics simulation software for the experimentalists and product developers. Its based on OpenMM plugins developed by Simbios.
 
@@ -10,11 +10,11 @@ Potential design systems include: polymer systems, solutions, emulsion systems, 
 
 Simulations can be run to model assembly, aggregation or order formation or formation of different structures, stability of systems, dynamic analysis such as diffusion, dissolution of crystals or other structures, response to different stresses and small changes in structure under stress.  These applications are of interest to industries or labs engaged in study of emulsions, paints, lotions, polymer formulations, adhesives, glues, composites, coatings, drug formulations, and their testing. 
 
-##Supported OS
+## Supported OS
 
 MD Darshan is well tested with Ubuntu 10.10 and Ubuntu 12.04. But it also works well with other distributions of Ubuntu.
 
-##Installation
+## Installation
 
 1. Download or clone the repository.
 2. Install libjava3d-java and freeglut3-dev using Synaptic Package Manager. You can also install them using aptitude as <br /><tt>sudo apt-get install libjava3d-java freeglut3-dev</tt><br />
@@ -22,7 +22,7 @@ MD Darshan is well tested with Ubuntu 10.10 and Ubuntu 12.04. But it also works 
 4. Use <tt>make</tt> to install the setup.
 5. You can run the program with <tt>java Darshan</tt>
 
-##Using MD Darshan
+## Using MD Darshan
 
 MD Darshan works through 3 parts.
 
@@ -37,17 +37,17 @@ You can build your molecular structures here. To build a new molecule, click Mol
 You can see here a black canvas at center and a toolkit panel in the right. You can select atom type by clicking on atom name in the list.
 You can draw a molecule by clicking on the canvas and erase it with a right click.
 
-####Basic Drawing
+#### Basic Drawing
 Clicking on two successive atoms will generate a bond. You can remove the bond with a right click.
 A bond can be single, resonant, double and triple. You can change type of bond by clicking on it. 
 Order of bond change is single => resonant => double => triple => single.
 
 In order to remove a bonded atom, you will have to remove the bond first.
 
-####Navigation
+#### Navigation
 You can translate view position with right click and drag. For rotate view, press right shift and then left click and drag mouse.
 
-####Toolkit Panel
+#### Toolkit Panel
   <b>Atom List</b><br />
 You can select draw atom type from this list. 
 
@@ -61,29 +61,29 @@ You can select draw atom type from this list.
 6. CNT Mode off - To draw complicated carbon based structures, you need to turn this mode on by clickin on "CNT Mode off". It will stop automatic energy optimization and set resonant bond as default bond. You can turn this mode off by again clicking on the same button.
 7. Clear - You can clear the canvas by clicking on clear button.
 
-####Save and export
+#### Save and export
 You can save your current drawing using Molecule => Save. <b>In order to import a molecule in System Builder, you will need to export it from Molecular Builder. Don't forget to save or export the molecule before you close the window.</b>
 
-####Load
+#### Load
 You can load a previously saved molecule with Molecule => Load
 
-####Carbon Nanotube
+#### Carbon Nanotube
 To draw a carbon nanotube, select Molecule => Advanced => Carbon Nanotube and give it dimensions.
 
 <hr>
-###System Builder
+### System Builder
 System builder sets simulation parameters, participating molecules. It also simulates given ensemble.
 
-####Setting up ensemble
+#### Setting up ensemble
 Click on System => New. A window with "Set properties" title pop up. Set temperature in Kelvin. Select simulation type from constant temperature and constant pressure. Then select default system behavior.
 Click next. Depending on your initial choices, set volume or pressure and initial volume. You can also set force cutoff radius in angstrom.
 Click Create to create the system.
 
-####Basic Navigation
+#### Basic Navigation
 Here you can see a blank simulation system box at center canvas with toolkit in the right. You can rotate the box by dragging the mouse. And you can zoom in or out using mouse scroll.
 You can translate the view with right click drag.
 
-####Toolkit Panel
+#### Toolkit Panel
   <b>Domain List </b><br />
 This is the list of created domains (regions)
 
@@ -107,21 +107,21 @@ A window will pop up with list of parameters.
 
 Click on "Ok" to start the simulation. A black window will pop up in a few seconds. This window will refresh and remain until simulations completes. You can close this window to stop the simulation. You can find result case and data files in workspace.
 
-####Save and load
+#### Save and load
 You can save and load the system file. Please note that save file is different than case file.
 <hr>
-###Post Processor
+### Post Processor
 Post processor is used to view and analyze simulation results.
 
 ####Loading simulation results
 Click on Post-Processor => Load Case. Select case file and data file. Make sure that both belong to same simulation set. Click "Ok" to load the files.
 
-####Basic Navigation
+#### Basic Navigation
 Here you can see simulation system box at center canvas with toolkit in the right. You can rotate the box by dragging the mouse. And you can zoom in or out using mouse scroll.
 You can translate the view with right click drag.
 To hide a selected domain from view, right click on canvas and select domain.
 
-####Toolkit Panel
+#### Toolkit Panel
   <b>Simulation Result List</b><br />
 This is list of result saved at set intervals. You can select a save to view and examine it.
 
@@ -137,13 +137,13 @@ This is list of result saved at set intervals. You can select a save to view and
 8. Energy - You can calculate energy by clicking on this button. You can also find out nonbonded, bond-stretch, bond-angle bend, dihedral torsional and inversional energy of a particular domain or set of domains.
 
 
-##Contributing
+## ontributing
 
 We encourage you to contribute to MD Darshan! You can send a mail to okpatil4u@gmail.com or sanatm@chemical.iitd.ernet.in if you have any queries.
 
-##Showcase
+## Showcase
 Yayy !!! We are on IIT Delhi <a href="http://iitd.ac.in/">front page</a>. More on this <a href="http://iitd.ac.in/content/md-darshan-ultrafast-gpu-based-molecular-dynamics-tool-developed">here</a>.
 
-##License
+## License
 
 MD Darshan is released under the <a href="http://www.gnu.org/licenses/gpl.html">GPL License</a>.
