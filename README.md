@@ -137,7 +137,7 @@ This is list of result saved at set intervals. You can select a save to view and
 8. Energy - You can calculate energy by clicking on this button. You can also find out nonbonded, bond-stretch, bond-angle bend, dihedral torsional and inversional energy of a particular domain or set of domains.
 
 
-## ontributing
+## Contributing
 
 We encourage you to contribute to MD Darshan! You can send a mail to okpatil4u@gmail.com or sanatm@chemical.iitd.ernet.in if you have any queries.
 
